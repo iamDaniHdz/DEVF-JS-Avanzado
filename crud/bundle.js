@@ -1,6 +1,7 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 "use strict";
 // json-server ./crud/db.json
+// browserify ./crud/index.js -o ./crud/bundle.js
 const { v4: uuidv4 } = require ('uuid');
 
 const d = document;
@@ -25,11 +26,11 @@ const printTask = (task, id) => {
     btn_2.textContent = "Eliminar";
 
     btn_1.addEventListener("click", () => {
-        putData()
+        putData(id, input_todo.value)
     });
 
     btn_2.addEventListener("click", () => {
-        console.log("Eliminando");
+        deleteData(id)
     });
 
     li.append(btn_1, btn_2);
@@ -66,15 +67,29 @@ const postData = (task) => {
         .catch(error => console.log(error))
 }
 
-const putData = () => {
-    return fetch(url, {
+// function que edita datos a la API
+const putData = (id, task) => {
+    return fetch(url + '/' + id, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                'task': 'Hola, soy una tarea nueva'
+                'task': task
             })
+        })
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.log(error))
+}
+
+// function que elimina datos a la API
+const deleteData = (id) => {
+    return fetch(url + '/' + id, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
         })
         .then(response => response.json())
         .then(data => console.log(data))
