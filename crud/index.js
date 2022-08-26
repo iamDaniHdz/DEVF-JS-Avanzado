@@ -68,7 +68,7 @@ const postData = (task) => {
 
 // function que edita datos a la API
 const putData = (id, task) => {
-    return fetch(url + '/' + id, {
+    return fetch(`${url}/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -84,7 +84,7 @@ const putData = (id, task) => {
 
 // function que elimina datos a la API
 const deleteData = (id) => {
-    return fetch(url + '/' + id, {
+    return fetch(`${url}/${id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
